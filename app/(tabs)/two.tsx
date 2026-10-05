@@ -1,14 +1,35 @@
-import { StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Pressable } from "react-native";
+import { useRouter } from "expo-router";
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+const elementos = [
+  { id: "1", nombre: "Manzana" },
+  { id: "2", nombre: "Banana" },
+  { id: "3", nombre: "Naranja" },
+  { id: "4", nombre: "Uva" },
+  { id: "5", nombre: "Fresa" },
+  { id: "6", nombre: "Piña" },
+];
 
-export default function TabTwoScreen() {
+export default function ListaScreen() {
+  const router = useRouter();
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/two.tsx" />
+      <Text style={styles.titulo}>Lista de frutas</Text>
+
+      <FlatList
+        data={elementos}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.item}>
+            <Text style={styles.itemTexto}>{item.nombre}</Text>
+          </View>
+        )}
+      />
+
+      <Pressable style={styles.boton} onPress={() => router.push("/")}>
+        <Text style={styles.botonTexto}>Volver al inicio</Text>
+      </Pressable>
     </View>
   );
 }
@@ -16,16 +37,35 @@ export default function TabTwoScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 24,
+    paddingTop: 80,
+    backgroundColor: "#fff",
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  titulo: {
+    fontSize: 22,
+    fontWeight: "bold",
+    marginBottom: 16,
+    textAlign: "center",
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+  item: {
+    backgroundColor: "#f2f2f2",
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  itemTexto: {
+    fontSize: 16,
+  },
+  boton: {
+    backgroundColor: "#2e78b7",
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 16,
+  },
+  botonTexto: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
   },
 });

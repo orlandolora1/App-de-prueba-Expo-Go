@@ -1,14 +1,37 @@
-import { StyleSheet } from 'react-native';
+import { useState } from "react";
+import { View, Text, TextInput, Button, StyleSheet, Pressable } from "react-native";
+import { useRouter } from "expo-router";
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+export default function HomeScreen() {
+  const router = useRouter();
+  const [texto, setTexto] = useState("");
+  const [textoGuardado, setTextoGuardado] = useState("");
 
-export default function TabOneScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
+      <Text style={styles.titulo}>Orlando Lora Ortega</Text>
+      <Text style={styles.subtitulo}>Carnet: 2018-0068</Text>
+
+      <View style={styles.separador} />
+
+      <Text style={styles.label}>Escribe algo:</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Escribe aquí..."
+        value={texto}
+        onChangeText={setTexto}
+      />
+      <Button title="Mostrar texto" onPress={() => setTextoGuardado(texto)} />
+
+      {textoGuardado !== "" && (
+        <Text style={styles.resultado}>Escribiste: {textoGuardado}</Text>
+      )}
+
+      <View style={styles.separador} />
+
+      <Pressable style={styles.boton} onPress={() => router.push("/two")}>
+        <Text style={styles.botonTexto}>Ver lista</Text>
+      </Pressable>
     </View>
   );
 }
@@ -16,16 +39,51 @@ export default function TabOneScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 24,
+    paddingTop: 80,
+    backgroundColor: "#fff",
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  titulo: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
   },
-  separator: {
-    marginVertical: 30,
+  subtitulo: {
+    fontSize: 16,
+    textAlign: "center",
+    color: "#555",
+    marginTop: 4,
+  },
+  separador: {
     height: 1,
-    width: '80%',
+    backgroundColor: "#ddd",
+    marginVertical: 24,
+  },
+  label: {
+    fontSize: 16,
+    marginBottom: 8,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 12,
+  },
+  resultado: {
+    marginTop: 12,
+    fontSize: 16,
+    fontStyle: "italic",
+  },
+  boton: {
+    backgroundColor: "#2e78b7",
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  botonTexto: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
   },
 });
